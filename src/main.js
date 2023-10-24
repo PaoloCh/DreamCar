@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import ToastService from 'primevue/toastservice'
@@ -29,6 +30,7 @@ import SplitButton from 'primevue/splitbutton'
 import DataView from 'primevue/dataview';
 
 createApp(App)
+    .use(createPinia())
     .use(router)
     .use(PrimeVue, { ripple: true })
     .use(ToastService)
