@@ -28,6 +28,7 @@ import Tag from 'primevue/tag'
 import Card from 'primevue/card'
 import SplitButton from 'primevue/splitbutton'
 import DataView from 'primevue/dataview';
+import 'primeicons/primeicons.css'
 
 createApp(App)
     .use(createPinia())
