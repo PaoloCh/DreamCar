@@ -136,7 +136,7 @@ html{
 .column ul li {
       margin-bottom: 1rem;
       font-size: 25px; 
-    text-align: left;
+      text-align: left;
 }
 
 .column ul li label{
