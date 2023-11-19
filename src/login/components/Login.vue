@@ -21,28 +21,96 @@ export default {
 </script>
 
 <template>
-  <div class="text-white bg-red-500 flex">
-    <div class="w-5 border-1">Acá irá la imagen</div>
-    <div class="w-5 border-1">
-      <h1>Login</h1>
+  <div class="bg-full">
+    <div class="bg-img-login">
+      <img src="DreamCar 1.png" width="350" height="350" />
+      <h2 style="color: white; font-size: 80px">DREAMCAR</h2>
+    </div>
 
-      <div class="flex flex-column">
+    <div class="bg-login">
+      <h2 style="color: white; font-size: 80px">Login</h2>
+
+      <div class="card flex justify-content-center inputs__groups">
         <pv-input-text
           type="text"
-          v-model="value"
           size="small"
+          v-model="value"
+          placeholder="Nombre de Usuario"
+          style="background-color: #e8e2ff; width: 300px; border-radius: 10px"
           @change="handleInput"
         />
         <pv-input-text
           type="text"
-          v-model="value1"
           size="small"
+          v-model="value1"
+          placeholder="Contraseña"
+          style="background-color: #e8e2ff; width: 300px; border-radius: 10px"
           @input="handleInput"
         />
-        <pv-button label="Iniciar Sesión" />
       </div>
 
-      <p>¿No tienes cuenta? <span class="font-bold">Registrate aquí</span></p>
+      <div class="card flex justify-content-center">
+        <pv-button
+          label="Iniciar Sesión"
+          style="
+            background-color: #c0d9ff;
+            color: #1b2849;
+            font-weight: 700;
+            width: 250px;
+          "
+        />
+      </div>
+
+      <p style="color: white">
+        ¿No tienes cuenta? <span style="font-weight: 600">Registrate aquí</span>
+      </p>
     </div>
   </div>
 </template>
+
+<style scoper>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  padding: 0;
+}
+
+.bg-full {
+  height: 100vh;
+  display: flex;
+}
+
+.bg-img-login {
+  background-image: url("bgLogin.png");
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-login {
+  width: 40%;
+  background: linear-gradient(
+    180deg,
+    #6ba6ff 4.69%,
+    #6ba6ff 4.7%,
+    #67a2ff 16.15%,
+    #1e5dff 80.21%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs__groups {
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+</style>
