@@ -19,7 +19,11 @@ const register = () => {
 <template>
   <div class="bg-full">
     <div class="bg-img-login">
-      <img src="DreamCar 1.png" width="350" height="350" />
+      <img
+        src="https://media.discordapp.net/attachments/1172674457211510895/1175649639102427246/DreamCar_1.png"
+        width="350"
+        height="350"
+      />
       <h2 style="color: white; font-size: 80px">DREAMCAR</h2>
     </div>
 
@@ -121,7 +125,7 @@ body {
 }
 
 .bg-img-login {
-  background-image: url("bgLogin.png");
+  background-image: url("https://media.discordapp.net/attachments/1172674457211510895/1175649639450542130/bgLogin.png");
   width: 60%;
   display: flex;
   flex-direction: column;
