@@ -17,34 +17,150 @@ const register = () => {
 </script>
 
 <template>
-  <div class="text-white bg-red-500 flex">
-    <div class="w-5 border-1">Acá irá la imagen</div>
-    <div class="w-5 border-1">
-      <h1>Sign Up</h1>
+  <div class="bg-full">
+    <div class="bg-img-login">
+      <img
+        src="https://media.discordapp.net/attachments/1172674457211510895/1175649639102427246/DreamCar_1.png"
+        width="350"
+        height="350"
+      />
+      <h2 style="color: white; font-size: 80px">DREAMCAR</h2>
+    </div>
 
-      <form class="flex flex-column" @submit.prevent="register">
-        <label>Nombre de Usuario</label>
-        <input type="text" v-model="nombreUsuario" />
+    <div class="bg-login">
+      <h2 style="color: white; font-size: 80px">Sign Up</h2>
 
-        <label>Nombre</label>
-        <input type="text" v-model="nombre" />
+      <form class="inputs__groups" @submit.prevent="register">
+        <div>
+          <label>Correo electrónico</label>
+          <pv-input-text
+            type="email"
+            size="small"
+            v-model="nombreUsuario"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
 
-        <label>Apellido</label>
-        <input type="text" v-model="apellido" />
+        <div>
+          <label>Contraseña</label>
+          <pv-input-text
+            type="password"
+            size="small"
+            v-model="nombre"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
 
-        <label>Contraseña</label>
-        <input type="text" v-model="password" />
+        <div>
+          <label>Nombre</label>
+          <pv-input-text
+            type="text"
+            size="small"
+            v-model="apellido"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
 
-        <label>Confirmar Contraseña</label>
-        <input type="text" v-model="repeatPassword" />
+        <div>
+          <label>Confirmar Contraseña</label>
+          <pv-input-text
+            type="password"
+            size="small"
+            v-model="password"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
 
-        <label>DNI</label>
-        <input type="text" v-model="dni" />
+        <div>
+          <label>Apellido</label>
+          <pv-input-text
+            type="text"
+            size="small"
+            v-model="repeatPassword"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
 
-        <button type="submit">Registrarse</button>
+        <div>
+          <label>DNI</label>
+          <pv-input-text
+            type="number"
+            size="small"
+            v-model="dni"
+            style="background-color: #e8e2ff; border-radius: 10px"
+          />
+        </div>
       </form>
 
-      <p>¿No tienes cuenta? <span class="font-bold">Registrate aquí</span></p>
+      <div class="card flex justify-content-center">
+        <pv-button
+          label="Registrarse"
+          style="
+            background-color: #c0d9ff;
+            color: #1b2849;
+            font-weight: 700;
+            width: 250px;
+          "
+        />
+      </div>
+
+      <p style="color: white">Volver al Log in</p>
     </div>
   </div>
 </template>
+
+<style scoper>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  padding: 0;
+}
+
+.bg-full {
+  height: 100vh;
+  display: flex;
+}
+
+.bg-img-login {
+  background-image: url("https://media.discordapp.net/attachments/1172674457211510895/1175649639450542130/bgLogin.png");
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-login {
+  width: 40%;
+  background: linear-gradient(
+    180deg,
+    #6ba6ff 4.69%,
+    #6ba6ff 4.7%,
+    #67a2ff 16.15%,
+    #1e5dff 80.21%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs__groups {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.inputs__groups > div > span {
+  color: white;
+}
+
+.inputs__groups > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+</style>
