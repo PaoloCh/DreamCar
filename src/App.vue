@@ -20,7 +20,7 @@ export default defineComponent({
 <template>
   <header-view></header-view>
   <!-- <iniciar-pago-view></iniciar-pago-view> -->
-  <Login />
+  <IniciarPagoView></IniciarPagoView>
 </template>
 
 <style></style>
