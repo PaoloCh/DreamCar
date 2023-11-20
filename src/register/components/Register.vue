@@ -7,7 +7,6 @@ const nombre = ref("");
 const apellido = ref("");
 const password = ref("");
 const repeatPassword = ref("");
-const dni = ref("");
 
 const userStore = useUserStore();
 
@@ -81,15 +80,6 @@ const register = () => {
           />
         </div>
 
-        <div>
-          <label>DNI</label>
-          <pv-input-text
-            type="number"
-            size="small"
-            v-model="dni"
-            style="background-color: #e8e2ff; border-radius: 10px"
-          />
-        </div>
       </form>
 
       <div class="card flex justify-content-center">
