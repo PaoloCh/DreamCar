@@ -10,6 +10,7 @@ export default {
       tipoPlan: 'Plan 24',
       cuotaFinal:'40',
       nAnios: '2',
+      tipoCapitalizacion: 'Diaria'
 
     };
   },
@@ -74,7 +75,7 @@ export default {
           </li>
           <li>
             <span class="label">Capitalización:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-dropdown class="dropdown-data" :options="['Diaria', 'Mensual']" v-model="tipoCapitalizacion"></pv-dropdown>
           </li>
           <li>
             <span class="label">Tasa Descuento (%):</span>
