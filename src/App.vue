@@ -5,6 +5,7 @@ import IniciarPagoView from "@/prestamos/pages/iniciar-plan-pago/iniciar_plan_pa
 import HeaderView from "@/shared/components/header-section.vue";
 import Login from "./login/components/Login.vue";
 import Register from "./register/components/Register.vue";
+import router from "./router";
 
 export default defineComponent({
   components: {
@@ -13,14 +14,14 @@ export default defineComponent({
     ToolbarGrillaSection,
     Login,
     Register,
-  },
+    router
+},
 });
 </script>
 
 <template>
   <header-view></header-view>
-  <!-- <iniciar-pago-view></iniciar-pago-view> -->
-  <Login />
+  <router-view></router-view>
 </template>
 
 <style></style>

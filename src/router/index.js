@@ -9,11 +9,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: GrillaView,
-    },
-    {
       path: "/login",
       name: "login",
       component: Login,
@@ -32,6 +27,11 @@ const router = createRouter({
       path: '/plan-pago',
       name: 'plan-pago',
       component: IniciarPagoView
+    },
+    {
+      path: "/",
+      name: "home",
+      component: GrillaView,
     }
   ],
 });
