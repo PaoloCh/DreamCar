@@ -28,6 +28,8 @@ import Tag from 'primevue/tag'
 import Card from 'primevue/card'
 import SplitButton from 'primevue/splitbutton'
 import DataView from 'primevue/dataview';
+import Skeleton from 'primevue/skeleton';
+import ProgressSpinner from 'primevue/progressspinner';
 import 'primeicons/primeicons.css'
 
 
@@ -52,4 +54,6 @@ createApp(App)
     .component('pv-card', Card)
     .component('pv-splitbutton', SplitButton)
     .component('pv-dataview', DataView)
+    .component('pv-skeleton', Skeleton)
+    .component('pv-progressspinner', ProgressSpinner)
     .mount('#app')
