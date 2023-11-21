@@ -1,57 +1,140 @@
 <script>
 export default {
   name: "IniciarPagoView",
-}
+  data() {
+    return {
+      // Agregar una variable para almacenar la opción seleccionada
+      monedaSeleccionada: "Soles",
+      tasaSeleccionada: 'Nominal',
+      tipoPeriodo: 'Total',
+      tipoPlan: 'Plan 24',
+      cuotaFinal:'40',
+      nAnios: '2',
+      tipoCapitalizacion: 'Diaria'
 
+    };
+  },
+  methods: {
+    actualizarNAnios() {
+      if (this.tipoPlan === 'Plan 36') {
+        this.nAnios = '3';
+      } else {
+        this.nAnios = '2';
+      }
+    },
+    actualizarCuotaFinal(){
+      if (this.tipoPlan === 'Plan 36') {
+        this.cuotaFinal = '40';
+      } else {
+        this.cuotaFinal = '50';
+      }
+    },
+
+  },
+
+  watch: {
+    tipoPlan: ['actualizarNAnios','actualizarCuotaFinal'],
+
+  }
+};
 </script>
 
 <template>
   <div class="container-inicio-pago">
     <h1 class="title">Nuevo plan de pago</h1>
     <div class="input-container">
-      <div class="column">
-      <ul class="input">
-        <li>
-          <span class="label">Moneda:</span>
-          <pv-dropdown class="dropdown-data"></pv-dropdown>
-        </li>
-        <li>
-          <span class="label">Monto préstamo:</span>
-          <pv-input-text class="input-data"></pv-input-text>
-        </li>
-        <li>
-          <span class="label">Cuota Inicial:</span>
-          <pv-input-text class="input-data"></pv-input-text>
-        </li>
-        <li>
-          <span class="label">Cuota Final:</span>
-          <pv-input-text class="input-data"></pv-input-text>
-        </li>
-        <li>
-          <span class="label">Capitalización:</span>
-          <pv-input-text class="input-data"></pv-input-text>
-        </li>
-        <li><span class="label">Portes:</span> <pv-input-text class="input-data"></pv-input-text></li>
-        <li><span class="label">Tasa Descuento:</span><pv-input-text class="input-data"></pv-input-text></li>
-        <li><span class="label">Gastos Admin:</span><pv-input-text class="input-data"></pv-input-text></li>
-        <li><span class="label">Seguro Desgrav.:</span><pv-input-text class="input-data"></pv-input-text></li>
-        <li><span class="label">Seguro de riesgo:</span><pv-input-text class="input-data"></pv-input-text></li>
-      </ul>
+      <div class="column1">
+        <ul class="input">
+          <li>
+            <span class="label">Moneda:</span>
+            <div>
+              <pv-dropdown class="dropdown-data" :options="['Soles', 'Dolares']" v-model="monedaSeleccionada"></pv-dropdown>
+            </div>
+          </li>
+          <li>
+            <span class="label">Precio de Venta:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Cuota Inicial (%):</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Tipo de plan:</span>
+            <div>
+              <pv-dropdown class="dropdown-data" :options="['Plan 24', 'Plan 36']" v-model="tipoPlan"></pv-dropdown>
+            </div>
+          </li>
+          <li>
+            <span class="label">Cuota Final(%):</span>
+            <pv-input-text class="input-data" v-model="cuotaFinal" readonly></pv-input-text>
+          </li>
+          <li>
+            <span class="label">N° Años:</span>
+            <pv-input-text class="input-data" v-model="nAnios" readonly></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Capitalización:</span>
+            <pv-dropdown class="dropdown-data" :options="['Diaria', 'Mensual']" v-model="tipoCapitalizacion"></pv-dropdown>
+          </li>
+          <li>
+            <span class="label">Tasa Descuento (%):</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Gastos Admin:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Tipo de tasa:</span>
+            <pv-dropdown class="dropdown-data" :options="['Nominal', 'Efectiva']" v-model="tasaSeleccionada"></pv-dropdown>
+          </li>
+          <li>
+            <span class="label">Tasa (%):</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+
+        </ul>
       </div>
 
-
-      <div class="column">
+      <div class="column1">
         <ul class="input">
-          <li><span class="label">Tipo periodo de gracia:</span><pv-dropdown class="dropdown-data"></pv-dropdown></li>
-          <li><span class="label">Periodo de gracia (meses):</span> <pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Cuotas periodo de gracia:</span> <pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Tasa:</span><pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Tipo de tasa:</span> <pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Número de años:</span><pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Tiempo(días):</span><pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Costes notariales:</span><pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">Costes registrales:</span><pv-input-text class="input-data"></pv-input-text></li>
-          <li><span class="label">GPS:</span><pv-input-text class="input-data"></pv-input-text></li>
+          <li>
+            <span class="label">Frecuencia de pago:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Tipo periodo de gracia:</span>
+            <pv-dropdown :options="['Total','Parcial','Sin periodo']" v-model="tipoPeriodo" class="dropdown-data"></pv-dropdown>
+          </li>
+          <li>
+            <span class="label">Cuotas periodo de gracia:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Costes notariales:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Costes registrales:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">GPS:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Portes:</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Seguro Desgrav. (%):</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
+          <li>
+            <span class="label">Seguro de riesgo (%):</span>
+            <pv-input-text class="input-data"></pv-input-text>
+          </li>
         </ul>
       </div>
     </div>
@@ -64,15 +147,16 @@ export default {
 </template>
 
 <style>
-.btns {
-  display: flex;
-  justify-content: center;
+
+.button{
+  margin:1%;
 }
+
 .container-inicio-pago{
-  margin-top: 2rem;
-  margin-right: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
+  margin-top: 2%;
   width: 90%;
+
 }
 .title{
   color: #fff;
@@ -85,60 +169,62 @@ export default {
   padding: 0;
 }
 
+.column1 .input li{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding:0 5%;
+  margin: 1% 0;
+  width:100%;
+}
+
 .input-container{
   background-color: #1472df;
   border-radius: 10px;
   color: #fff;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  column-gap: 1rem;
+  padding: 2%;
+}
+@media (max-width: 1200px) {
+  .input-container{
+    display: flex;
+    flex-direction:column;
+  }
+  .input {
+    list-style-type: none;
+  }
+}
+
+.column1 .input li div{
   display: flex;
+  justify-content: center;
 
 }
 
-.column {
+.dropdown-data,
+.input-data {
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  margin-left: 1rem;
   display: flex;
-  justify-content: space-between;
-  width: 1%; /* Ajusta el ancho de la columna según tus necesidades */
-}
-
-.column .input li{
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 170%;
-  text-align: left;
-  width:100%;
   align-items: center;
-  padding: 0% 1%;
-
-
+}
+.dropdown-data{
+  padding: 0 3px;
 }
 
 .input-data{
-  height: 10px;
-  width: 28%;
-  border-radius: 10px;
-
+  padding: 0 18px;
+  text-align: right;
 }
 
-.dropdown-data{
-  height: 34px;
-  width: 40%;
-  border-radius: 10px;
 
+.label{
+  font-size: 1.8rem;
+  margin-right: 1rem;
 }
-
-.button{
-  margin:2%;
-}
-
-.label {
-  padding-left: 15%;
-  display: inline-block;
-  width: 60%;
-  text-align: left;
-}
-
-.input-data {
-  width: 40%;
-  box-sizing: border-box;
-}
-
 </style>
