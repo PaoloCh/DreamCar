@@ -6,14 +6,14 @@
           label="Tus Planes de Pago"
           class="button-primary"
           icon="pi pi-folder"
-          @click="navigate"
+          @click="navigate('/tus-planes')"
       />
 
       <pv-button
           label="Iniciar un Plan de Pago"
           class="button-primary"
           icon="pi pi-plus-circle"
-          @click="navigate"
+          @click="navigate('/plan-pago')"
       />
     </div>
 
@@ -21,6 +21,7 @@
 
     <div class="table">
       <pv-data-table
+          :value="details"
           ref="dt"
           data-key="id"
           :paginator="true"
@@ -32,7 +33,7 @@
           responsive-layout="scroll"
       >
         <pv-column class="column-feat" field="id" header="ID" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="cuotas" header="Monto Prestamo" style="min-width: 8rem"></pv-column>
+        <pv-column class="column-feat" field="montoPrestamo" header="Monto Prestamo" style="min-width: 8rem"></pv-column>
         <pv-column class="column-feat" field="tasa" header="N° Cuotas" style="min-width: 8rem"></pv-column>
         <pv-column class="column-feat" field="quantity" header="Tipo de Tasa" style="min-width: 8rem"></pv-column>
         <pv-column class="column-feat" field="info" header="Información" style="min-width: 8rem"></pv-column>
@@ -44,10 +45,47 @@
 </template>
 
 <script>
-
+import axios from "axios";
+import baseUrl from "@/shared/environments/environment";
 
 export default {
   name: "GrillaView",
+  data(){
+    return {
+      details: '',
+      loadingGrid: false,
+    };
+  },
+
+  methods: {
+    navigate(path) {
+      this.$router.push(path);
+    },
+    loadPrestamos() {
+      return this.details.map(row => {
+        return {
+          id: row.id,
+          montoPrestamo: row.montoPrestamo.toFixed(2),
+          nCuotas: row.nCuotas.toFixed(2),
+          tipoTasa: row.tipoTasa,
+        }
+      })
+    },
+
+
+
+  },
+  async mounted() {
+    this.loadingGrid = true;
+    try {
+      const response = await axios.get(baseUrl + '/loans' + this.prestamoId + '/details');
+      this.details = response.data;
+      this.details = this.loadPrestamos();
+      this.loadingGrid = false;
+    } catch (error) {
+      console.error('Error al obtener los resultados:', error);
+    }
+  }
 }
 
 </script>

@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: "login",
   data() {
     return {
       value: "", // Almacena el valor del primer campo de entrada
@@ -15,6 +16,9 @@ export default {
       // Este método imprime los valores en la consola.
       console.log("Valor del primer campo de entrada:", this.value);
       console.log("Valor del segundo campo de entrada:", this.value1);
+    },
+    navigate(path) {
+      this.$router.push(path);
     },
   },
 };
@@ -55,6 +59,7 @@ export default {
 
       <div class="card flex justify-content-center">
         <pv-button
+          @click="navigate('/tus-planes')"
           label="Iniciar Sesión"
           style="
             background-color: #c0d9ff;
@@ -66,7 +71,7 @@ export default {
       </div>
 
       <p style="color: white">
-        ¿No tienes cuenta? <span style="font-weight: 600">Registrate aquí</span>
+        ¿No tienes cuenta? <br> <pv-button @click="navigate('/register')" label="Registrate" style="background: transparent; font-weight: 200; width: 100px;"/>
       </p>
     </div>
   </div>

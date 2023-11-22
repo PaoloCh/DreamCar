@@ -1,18 +1,22 @@
-<script setup>
-import { ref } from "vue";
-import { useUserStore } from "../../stores/user";
+<script>
+import axios from 'axios';
+import baseUrl from '../../../shared/environments/environment';
+export default {
+  name: 'register',
+  data(){
+    nombreUsuario: '',
+        
+  },
+  methods(){
+    navigate(path) {
+      this.$router.push(path);
+    }
 
-const nombreUsuario = ref("");
-const nombre = ref("");
-const apellido = ref("");
-const password = ref("");
-const repeatPassword = ref("");
+  }
+}
 
-const userStore = useUserStore();
 
-const register = () => {
-  userStore.register(nombreUsuario.value, password.value);
-};
+
 </script>
 
 <template>
@@ -94,7 +98,7 @@ const register = () => {
         />
       </div>
 
-      <p style="color: white">Volver al Log in</p>
+      <p style="color: white"><pv-button @click="this.navigate('/login')" label="Volver al Log In" style="background: transparent; font-weight: 200; width: 100px;"/></p>
     </div>
   </div>
 </template>

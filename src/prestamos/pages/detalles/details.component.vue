@@ -14,7 +14,7 @@ export default{
     },
     methods:{
         volver(){
-            this.$router.push('/');
+            this.$router.push('/tus-planes');
         },
         roundedDetails() {
             return this.details.map(row => {

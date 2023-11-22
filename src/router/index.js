@@ -14,6 +14,11 @@ const router = createRouter({
       component: Login,
     },
     {
+      path: "/",
+      name: "login",
+      component: Login,
+    },
+    {
       path: "/register",
       name: "register",
       component: Register,
@@ -29,10 +34,11 @@ const router = createRouter({
       component: IniciarPagoView
     },
     {
-      path: "/",
-      name: "home",
+      path: "/tus-planes",
+      name: "tus-planes",
       component: GrillaView,
     }
+
   ],
 });
 
