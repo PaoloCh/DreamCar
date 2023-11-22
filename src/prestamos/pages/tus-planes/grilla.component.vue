@@ -32,11 +32,15 @@
           tableStyle="min-width: 50rem"
           responsive-layout="scroll"
       >
-        <pv-column class="column-feat" field="id" header="ID" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="montoPrestamo" header="Monto Prestamo" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="tasa" header="N° Cuotas" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="quantity" header="Tipo de Tasa" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="info" header="Información" style="min-width: 8rem"></pv-column>
+        <pv-column class="column-feat" field="id" header="ID" style="width: 25%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="precioVentaActivo" header="Precio de Venta del Activo" style="width: 25%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="tipoPlan" header="N° Cuotas" style="width: 15%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="tipoTasa" header="Tipo de Tasa" style="width: 15%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="info" header="Información" style="width: 15%; text-align: left;">
+        <template #body="{ data }">
+          <pv-button @click="redirectToDetails(data.id)">Ver detalles</pv-button>
+        </template>
+        </pv-column>
 
       </pv-data-table>
     </div>
@@ -50,10 +54,12 @@ import baseUrl from "@/shared/environments/environment";
 
 export default {
   name: "GrillaView",
+  inject: ['cookies'],
   data(){
     return {
       details: '',
       loadingGrid: false,
+      userId: '',
     };
   },
 
@@ -65,23 +71,25 @@ export default {
       return this.details.map(row => {
         return {
           id: row.id,
-          montoPrestamo: row.montoPrestamo.toFixed(2),
-          nCuotas: row.nCuotas.toFixed(2),
+          precioVentaActivo: (row.precioVentaActivo).toFixed(2),
+          tipoPlan: row.tipoPlan,
           tipoTasa: row.tipoTasa,
         }
       })
     },
-
+    redirectToDetails(id){
+      this.navigate('/details/' + id);
+    },
+    
 
 
   },
   async mounted() {
-    this.loadingGrid = true;
+    this.userId = this.$cookies.get('userSession');
     try {
-      const response = await axios.get(baseUrl + '/loans' + this.prestamoId + '/details');
+      const response = await axios.get(baseUrl + '/users/' + this.userId + '/loans');
       this.details = response.data;
       this.details = this.loadPrestamos();
-      this.loadingGrid = false;
     } catch (error) {
       console.error('Error al obtener los resultados:', error);
     }

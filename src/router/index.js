@@ -12,12 +12,7 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: Login,
-    },
-    {
-      path: "/",
-      name: "login",
-      component: Login,
-    },
+    },    
     {
       path: "/register",
       name: "register",
@@ -37,8 +32,12 @@ const router = createRouter({
       path: "/tus-planes",
       name: "tus-planes",
       component: GrillaView,
-    }
-
+    },
+    {
+      path: "/",
+      name: "login",
+      component: Login,
+    },
   ],
 });
 
