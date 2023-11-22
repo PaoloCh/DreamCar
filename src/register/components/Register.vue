@@ -1,18 +1,42 @@
-<script setup>
-import { ref } from "vue";
-import { useUserStore } from "../../stores/user";
+<script>
+import axios from 'axios';
+import baseUrl from '../../shared/environments/environment';
 
-const nombreUsuario = ref("");
-const nombre = ref("");
-const apellido = ref("");
-const password = ref("");
-const repeatPassword = ref("");
+export default {
+  name: 'register',
+  data(){
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    };    
+  },
+  methods:{
+    navigate(path) {
+      this.$router.push(path);
+    },
+    async register(){
+      const user = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password
+      }
 
-const userStore = useUserStore();
+      try {
+          await axios.post(baseUrl + '/users', user);
+          this.navigate('/');
+      } catch (error) {
+            console.error('Error al registrar:', error);
+        }
+    }
 
-const register = () => {
-  userStore.register(nombreUsuario.value, password.value);
-};
+  }
+}
+
+
+
 </script>
 
 <template>
@@ -35,7 +59,7 @@ const register = () => {
           <pv-input-text
             type="email"
             size="small"
-            v-model="nombreUsuario"
+            v-model="email"
             style="background-color: #e8e2ff; border-radius: 10px"
           />
         </div>
@@ -45,7 +69,7 @@ const register = () => {
           <pv-input-text
             type="password"
             size="small"
-            v-model="nombre"
+            v-model="password"
             style="background-color: #e8e2ff; border-radius: 10px"
           />
         </div>
@@ -55,17 +79,7 @@ const register = () => {
           <pv-input-text
             type="text"
             size="small"
-            v-model="apellido"
-            style="background-color: #e8e2ff; border-radius: 10px"
-          />
-        </div>
-
-        <div>
-          <label>Confirmar Contraseña</label>
-          <pv-input-text
-            type="password"
-            size="small"
-            v-model="password"
+            v-model="firstName"
             style="background-color: #e8e2ff; border-radius: 10px"
           />
         </div>
@@ -75,7 +89,7 @@ const register = () => {
           <pv-input-text
             type="text"
             size="small"
-            v-model="repeatPassword"
+            v-model="lastName"
             style="background-color: #e8e2ff; border-radius: 10px"
           />
         </div>
@@ -83,7 +97,7 @@ const register = () => {
       </form>
 
       <div class="card flex justify-content-center">
-        <pv-button
+        <pv-button @click="register()"
           label="Registrarse"
           style="
             background-color: #c0d9ff;
@@ -94,7 +108,7 @@ const register = () => {
         />
       </div>
 
-      <p style="color: white">Volver al Log in</p>
+      <p style="color: white"><pv-button @click="this.navigate('/')" label="Volver al Log In" style="background: transparent; font-weight: 200; width: 100px;"/></p>
     </div>
   </div>
 </template>

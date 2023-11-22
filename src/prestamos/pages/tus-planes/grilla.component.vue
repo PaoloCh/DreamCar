@@ -6,14 +6,14 @@
           label="Tus Planes de Pago"
           class="button-primary"
           icon="pi pi-folder"
-          @click="navigate"
+          @click="navigate('/tus-planes')"
       />
 
       <pv-button
           label="Iniciar un Plan de Pago"
           class="button-primary"
           icon="pi pi-plus-circle"
-          @click="navigate"
+          @click="navigate('/plan-pago')"
       />
     </div>
 
@@ -21,6 +21,7 @@
 
     <div class="table">
       <pv-data-table
+          :value="details"
           ref="dt"
           data-key="id"
           :paginator="true"
@@ -31,11 +32,15 @@
           tableStyle="min-width: 50rem"
           responsive-layout="scroll"
       >
-        <pv-column class="column-feat" field="id" header="ID" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="cuotas" header="Monto Prestamo" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="tasa" header="N° Cuotas" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="quantity" header="Tipo de Tasa" style="min-width: 8rem"></pv-column>
-        <pv-column class="column-feat" field="info" header="Información" style="min-width: 8rem"></pv-column>
+        <pv-column class="column-feat" field="id" header="ID" style="width: 25%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="precioVentaActivo" header="Precio de Venta del Activo" style="width: 25%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="tipoPlan" header="N° Cuotas" style="width: 15%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="tipoTasa" header="Tipo de Tasa" style="width: 15%; text-align: left;"></pv-column>
+        <pv-column class="column-feat" field="info" header="Información" style="width: 15%; text-align: left;">
+        <template #body="{ data }">
+          <pv-button @click="redirectToDetails(data.id)">Ver detalles</pv-button>
+        </template>
+        </pv-column>
 
       </pv-data-table>
     </div>
@@ -44,10 +49,51 @@
 </template>
 
 <script>
-
+import axios from "axios";
+import baseUrl from "@/shared/environments/environment";
 
 export default {
   name: "GrillaView",
+  inject: ['cookies'],
+  data(){
+    return {
+      details: '',
+      loadingGrid: false,
+      userId: '',
+    };
+  },
+
+  methods: {
+    navigate(path) {
+      this.$router.push(path);
+    },
+    loadPrestamos() {
+      return this.details.map(row => {
+        return {
+          id: row.id,
+          precioVentaActivo: (row.precioVentaActivo).toFixed(2),
+          tipoPlan: row.tipoPlan,
+          tipoTasa: row.tipoTasa,
+        }
+      })
+    },
+    redirectToDetails(id){
+      this.navigate('/details/' + id);
+    },
+    
+
+
+  },
+  async mounted() {
+    this.userId = this.$cookies.get('userSession');
+    try {
+      const response = await axios.get(baseUrl + '/users/' + this.userId + '/loans');
+      this.details = response.data;
+      this.details = this.loadPrestamos();
+    } catch (error) {
+      console.error('Error al obtener los resultados:', error);
+    }
+  }
 }
 
 </script>

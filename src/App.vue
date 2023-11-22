@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <header-view></header-view>
+  <header-view v-if="!['login', 'register'].includes($route.name)"/>
   <router-view></router-view>
 </template>
 

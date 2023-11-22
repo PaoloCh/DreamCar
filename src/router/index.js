@@ -12,7 +12,7 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: Login,
-    },
+    },    
     {
       path: "/register",
       name: "register",
@@ -29,10 +29,15 @@ const router = createRouter({
       component: IniciarPagoView
     },
     {
-      path: "/",
-      name: "home",
+      path: "/tus-planes",
+      name: "tus-planes",
       component: GrillaView,
-    }
+    },
+    {
+      path: "/",
+      name: "login",
+      component: Login,
+    },
   ],
 });
 

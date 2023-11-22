@@ -1,35 +1,98 @@
 <script>
+import axios from 'axios';
+import baseUrl from '../../../shared/environments/environment';
+
 export default {
   name: "IniciarPagoView",
+  inject: ['cookies'],
   data() {
     return {
-      // Agregar una variable para almacenar la opción seleccionada
-      monedaSeleccionada: "Soles",
-      tasaSeleccionada: 'Nominal',
-      tipoPeriodo: 'Total',
-      tipoPlan: 'Plan 24',
-      cuotaFinal:'40',
-      nAnios: '2',
-      tipoCapitalizacion: 'Diaria'
-
+      moneda: '',
+      precioVentaActivo: '',
+      tipoPlan : '',
+      cuotaInicialPorcentaje: '',
+      cuotaFinalPorcentaje: '',
+      numeroAnios: '',
+      tipoPeriodoGracia : '',
+      cuotasPeriodoGracia: '',
+      tasa: '',
+      tipoTasa: '',
+      capitalizacion: '',
+      costesNotariales: '',
+      costesRegistrales: '',
+      gps: '',
+      portes: '',
+      gastosAdmin : '',
+      seguroDesgravamenPorcentaje: '',
+      seguroRiesgoPorcentaje: '',
+      tasaDescuentoPorcentaje: '',
+      freqPago: '',
     };
   },
   methods: {
     actualizarNAnios() {
       if (this.tipoPlan === 'Plan 36') {
-        this.nAnios = '3';
+        this.numeroAnios = '3';
       } else {
-        this.nAnios = '2';
+        this.numeroAnios = '2';
       }
     },
     actualizarCuotaFinal(){
       if (this.tipoPlan === 'Plan 36') {
-        this.cuotaFinal = '40';
+        this.cuotaFinalPorcentaje = '40';
       } else {
-        this.cuotaFinal = '50';
+        this.cuotaFinalPorcentaje = '50';
       }
     },
+    volver() {
+      this.$router.push("/tus-planes");
+    },
+    async aceptar() {
+      this.tipoPlan = this.tipoPlan === 'Plan 36' ? '36' : '24';
+      this.capitalizacion = this.capitalizacion === 'Diaria' ? '1' : '30';
+      const datos = {
+        moneda: this.moneda,
+        precioVentaActivo: this.precioVentaActivo,
+        tipoPlan : this.tipoPlan,
+        cuotaInicialPorcentaje: this.cuotaInicialPorcentaje,
+        cuotaFinalPorcentaje: this.cuotaFinalPorcentaje,
+        numeroAnios: this.numeroAnios,
+        tipoPeriodoGracia : this.tipoPeriodoGracia,
+        cuotasPeriodoGracia: this.cuotasPeriodoGracia,
+        tasa: this.tasa,
+        tipoTasa: this.tipoTasa,
+        capitalizacion: this.capitalizacion,
+        costesNotariales: this.costesNotariales,
+        costesRegistrales: this.costesRegistrales,
+        gps: this.gps,
+        portes: this.portes,
+        gastosAdmin : this.gastosAdmin,
+        seguroDesgravamenPorcentaje: this.seguroDesgravamenPorcentaje,
+        seguroRiesgoPorcentaje: this.seguroRiesgoPorcentaje,
+        tasaDescuentoPorcentaje: this.tasaDescuentoPorcentaje,
+        freqPago: this.freqPago,
+      }
 
+      try{
+        const userId = this.$cookies.get('userSession');
+        const response = await axios.post(baseUrl + '/users/' + userId + '/loans', datos);
+        this.$toast.add({
+          severity: 'success',
+          summary: 'Exito',
+          detail: 'Plan de pago creado correctamente',
+          life: 3000
+        });
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al crear el plan de pago',
+          life: 3000
+        });
+      }
+
+      this.$router.push("/tus-planes");
+    },
   },
 
   watch: {
@@ -48,16 +111,16 @@ export default {
           <li>
             <span class="label">Moneda:</span>
             <div>
-              <pv-dropdown class="dropdown-data" :options="['Soles', 'Dolares']" v-model="monedaSeleccionada"></pv-dropdown>
+              <pv-dropdown class="dropdown-data" :options="['Soles', 'Dolares']" v-model="moneda"></pv-dropdown>
             </div>
           </li>
           <li>
             <span class="label">Precio de Venta:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text v-model="precioVentaActivo" class="input-data"></pv-input-text>
           </li>
           <li>
             <span class="label">Cuota Inicial (%):</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="cuotaInicialPorcentaje"></pv-input-text>
           </li>
           <li>
             <span class="label">Tipo de plan:</span>
@@ -67,31 +130,31 @@ export default {
           </li>
           <li>
             <span class="label">Cuota Final(%):</span>
-            <pv-input-text class="input-data" v-model="cuotaFinal" readonly></pv-input-text>
+            <pv-input-text class="input-data" v-model="cuotaFinalPorcentaje" readonly></pv-input-text>
           </li>
           <li>
             <span class="label">N° Años:</span>
-            <pv-input-text class="input-data" v-model="nAnios" readonly></pv-input-text>
+            <pv-input-text class="input-data" v-model="numeroAnios" readonly></pv-input-text>
           </li>
           <li>
             <span class="label">Capitalización:</span>
-            <pv-dropdown class="dropdown-data" :options="['Diaria', 'Mensual']" v-model="tipoCapitalizacion"></pv-dropdown>
+            <pv-dropdown class="dropdown-data" :options="['Diaria', 'Mensual']" v-model="capitalizacion"></pv-dropdown>
           </li>
           <li>
             <span class="label">Tasa Descuento (%):</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="tasaDescuentoPorcentaje"></pv-input-text>
           </li>
           <li>
             <span class="label">Gastos Admin:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="gastosAdmin"></pv-input-text>
           </li>
           <li>
             <span class="label">Tipo de tasa:</span>
-            <pv-dropdown class="dropdown-data" :options="['Nominal', 'Efectiva']" v-model="tasaSeleccionada"></pv-dropdown>
+            <pv-dropdown class="dropdown-data" :options="['TNA', 'TEA']" v-model="tipoTasa"></pv-dropdown>
           </li>
           <li>
             <span class="label">Tasa (%):</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="tasa"></pv-input-text>
           </li>
 
         </ul>
@@ -101,39 +164,39 @@ export default {
         <ul class="input">
           <li>
             <span class="label">Frecuencia de pago:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="freqPago"></pv-input-text>
           </li>
           <li>
             <span class="label">Tipo periodo de gracia:</span>
-            <pv-dropdown :options="['Total','Parcial','Sin periodo']" v-model="tipoPeriodo" class="dropdown-data"></pv-dropdown>
+            <pv-dropdown :options="['T','P','S']" v-model="tipoPeriodoGracia" class="dropdown-data"></pv-dropdown>
           </li>
           <li>
             <span class="label">Cuotas periodo de gracia:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="cuotasPeriodoGracia"></pv-input-text>
           </li>
           <li>
             <span class="label">Costes notariales:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="costesNotariales"></pv-input-text>
           </li>
           <li>
             <span class="label">Costes registrales:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="costesRegistrales"></pv-input-text>
           </li>
           <li>
             <span class="label">GPS:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="gps"></pv-input-text>
           </li>
           <li>
             <span class="label">Portes:</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="portes"></pv-input-text>
           </li>
           <li>
             <span class="label">Seguro Desgrav. (%):</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="seguroDesgravamenPorcentaje"></pv-input-text>
           </li>
           <li>
             <span class="label">Seguro de riesgo (%):</span>
-            <pv-input-text class="input-data"></pv-input-text>
+            <pv-input-text class="input-data" v-model="seguroRiesgoPorcentaje"></pv-input-text>
           </li>
         </ul>
       </div>
@@ -141,8 +204,8 @@ export default {
 
   </div>
   <div class="button-container">
-    <pv-button class="button" label="Volver" rounded />
-    <pv-button class="button" label="Aceptar" rounded />
+    <pv-button class="button" @click="volver()" label="Volver" rounded />
+    <pv-button class="button" @click="aceptar()" label="Aceptar" rounded />
   </div>
 </template>
 

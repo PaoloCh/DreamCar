@@ -1,26 +1,51 @@
 <script>
+import axios from 'axios';
+import baseUrl from '../../shared/environments/environment';
+
 export default {
+  name: "login",
+  inject: ['cookies'],
   data() {
     return {
-      value: "", // Almacena el valor del primer campo de entrada
-      value1: "", // Almacena el valor del segundo campo de entrada
+      email: "",
+      password: "",
+      loading: false, 
     };
   },
   methods: {
-    handleInput() {
-      // Este método se llama cuando se realiza una entrada en cualquiera de los campos de entrada.
-      // No es necesario imprimir en la consola aquí, ya que los valores se actualizan automáticamente en los datos.
+    navigate(path) {
+      this.$router.push(path);
     },
-    printValues() {
-      // Este método imprime los valores en la consola.
-      console.log("Valor del primer campo de entrada:", this.value);
-      console.log("Valor del segundo campo de entrada:", this.value1);
-    },
+    async login(){
+      this.loading = true;
+      const user = {
+        email: this.email,
+        password: this.password
+      }
+
+      try {
+        const userId = await axios.post(baseUrl + '/users/login', user);
+        this.$cookies.set('userSession', userId.data);
+        console.log('userSession: ' + this.$cookies.get('userSession'));
+        this.loading = false;
+        this.navigate('/tus-planes');
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Usuario o contraseña incorrectos',
+          life: 3000
+        });
+        this.loading = false;
+      }
+    }
   },
 };
 </script>
 
 <template>
+  <pv-toast />
+  <pv-progressspinner v-if="loading" class="spinner-overlay"/>
   <div class="bg-full">
     <div class="bg-img-login">
       <img
@@ -38,15 +63,15 @@ export default {
         <pv-input-text
           type="text"
           size="small"
-          v-model="value"
-          placeholder="Nombre de Usuario"
+          v-model="email"
+          placeholder="Email"
           style="background-color: #e8e2ff; width: 300px; border-radius: 10px"
           @change="handleInput"
         />
         <pv-input-text
-          type="text"
+          type="password"
           size="small"
-          v-model="value1"
+          v-model="password"
           placeholder="Contraseña"
           style="background-color: #e8e2ff; width: 300px; border-radius: 10px"
           @input="handleInput"
@@ -55,6 +80,7 @@ export default {
 
       <div class="card flex justify-content-center">
         <pv-button
+          @click="login()"
           label="Iniciar Sesión"
           style="
             background-color: #c0d9ff;
@@ -66,7 +92,7 @@ export default {
       </div>
 
       <p style="color: white">
-        ¿No tienes cuenta? <span style="font-weight: 600">Registrate aquí</span>
+        ¿No tienes cuenta? <br> <pv-button @click="navigate('/register')" label="Registrate" style="background: transparent; font-weight: 200; width: 100px;"/>
       </p>
     </div>
   </div>
@@ -116,5 +142,16 @@ body {
   flex-direction: column;
   gap: 15px;
   margin-bottom: 40px;
+}
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 </style>

@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import ToastService from 'primevue/toastservice'
+import VueCookies from 'vue-cookies'
 
 //theme
 import PrimeVue from 'primevue/config'
@@ -30,6 +31,7 @@ import SplitButton from 'primevue/splitbutton'
 import DataView from 'primevue/dataview';
 import Skeleton from 'primevue/skeleton';
 import ProgressSpinner from 'primevue/progressspinner';
+
 import 'primeicons/primeicons.css'
 
 
@@ -38,6 +40,9 @@ createApp(App)
     .use(router)
     .use(PrimeVue, { ripple: true })
     .use(ToastService)
+    .use(ToastService)
+    .use(VueCookies)
+    .provide('$cookies', VueCookies)
     .component('pv-data-table', DataTable)
     .component('pv-column', Column)
     .component('pv-toolbar', Toolbar)

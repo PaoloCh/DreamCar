@@ -14,7 +14,7 @@ export default{
     },
     methods:{
         volver(){
-            this.$router.push('/');
+            this.$router.push('/tus-planes');
         },
         roundedDetails() {
             return this.details.map(row => {
@@ -105,9 +105,9 @@ export default{
                 <pv-column field="saldoInicialCuotaFinal" header="Saldo Inicial Cuota final" style="width: 25%"></pv-column>
                 <pv-column field="interesCuotaFinal" header="Interes Cuota final" style="width: 25%"></pv-column>
                 <pv-column field="amortizacionCuotaFinal" header="Amort. Cuota final" style="width: 25%"></pv-column>
-                <pv-column field="seguroDesgCuotaFinal" header="Seguro desg. Cuota final" style="width: 25%"></pv-column>
-                <pv-column field="saldoInicialCuota" header="Saldo Inicial Cuota" style="width: 25%"></pv-column>
+                <pv-column field="seguroDesgCuotaFinal" header="Seguro desg. Cuota final" style="width: 25%"></pv-column> 
                 <pv-column field="saldoFinalCuotaFinal" header="Saldo Final Cuota Final" style="width: 25%"></pv-column>
+                <pv-column field="saldoInicialCuota" header="Saldo Inicial Cuota" style="width: 25%"></pv-column>
                 <pv-column field="interes" header="Interes" style="width: 25%"></pv-column>
                 <pv-column field="cuota" header="Cuota" style="width: 25%"></pv-column>
                 <pv-column field="amortizacion" header="Amortizacion" style="width: 25%"></pv-column>
